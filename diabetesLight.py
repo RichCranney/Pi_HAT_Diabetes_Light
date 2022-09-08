@@ -1,13 +1,11 @@
 from datetime import datetime
 import sys
 import time
-import math
-from colorsys import hsv_to_rgb
 from unicornhatmini import UnicornHATMini
 from pydexcom import Dexcom
 from decimal import Decimal, getcontext
 import json
-import webcolors
+from settings import *
 from webcolors import name_to_rgb
 
 
@@ -98,25 +96,6 @@ def set_unicorn(bloodGlucoseColour, deltaRateColour, deltaArrowType, bright):
 # Set Decimal place
 getcontext().prec = 1
 
-bloodGlucose = [
-    [0.0, 3.9, "red"],
-    [4.0, 4.5, "orange"],
-    [4.6, 10.0, "green"],
-    [10.0, 13.9, "pink"],
-    [14.0, 99.9, "purple"]
-]
-
-deltaRates = [
-    [-5, -1, "red", "down"],
-    [-0.9, -0.2, "orange", "down"],
-    [-0.1, 0.1, "green", "steady"],
-    [0.2, 0.9, "orange", "up"],
-    [1.0, 5, "red", "up"]
-]
-
-# Get Dexcom username and password (this should be stored in secret management)
-Dexcom_username = 'richardcranney'
-Dexcom_password = 'Wycombe!23'
 
 # Connect to the Unicorn HAT
 uh = UnicornHATMini()
