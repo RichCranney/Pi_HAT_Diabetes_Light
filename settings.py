@@ -4,8 +4,8 @@ Dexcom_password = 'Wycombe!23'
 
 bloodGlucose = [
     [0.0, 3.9, "red"],
-    [4.0, 5.4, "orange"],
-    [5.5, 10.0, "green"],
+    [4.0, 5.5, "orange"],
+    [5.6, 10.0, "green"],
     [10.0, 13.9, "pink"],
     [14.0, 99.9, "purple"]
 ]
