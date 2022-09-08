@@ -108,9 +108,9 @@ bloodGlucose = [
 
 deltaRates = [
     [-5, -1, "red", "down"],
-    [-0.9, -0.3, "orange", "down"],
-    [-0.2, 0.2, "green", "steady"],
-    [0.3, 0.9, "orange", "up"],
+    [-0.9, -0.2, "orange", "down"],
+    [-0.1, 0.1, "green", "steady"],
+    [0.2, 0.9, "orange", "up"],
     [1.0, 5, "red", "up"]
 ]
 
