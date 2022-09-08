@@ -59,46 +59,40 @@ def clear_unicorn():
     uh.clear()
 
 
-def set_unicorn(r, g, b, bright):
-    uh.clear()
-    uh.set_brightness(bright)
-    uh.set_all(r, g, b)
-    uh.show()
-
-
-def rainbow_unicorn(bright):
-    global fileContent
-    uh.clear()
-    uh.set_brightness(bright)
-    uh.set_rotation(0)
+def set_unicorn(bloodGlucoseColour, deltaRateColour, deltaArrowType, bright):
+    bg_r, bg_g, bg_b = name_to_rgb(bloodGlucoseColour)
+    dr_r, dr_g, dr_b = name_to_rgb(deltaRateColour)
     width, height = uh.get_shape()
 
-    step = 0
-    counter = 0
+    uh.clear()
+    uh.set_brightness(bright)
+    uh.set_all(bg_r, bg_g, bg_b)
+    
+    if deltaArrowType == "up":
+        deltaArrow = [
+            [16, 3],
+            [15, 2], [15, 3], [15, 4],
+            [14, 1], [14, 2], [14, 3], [14, 4], [14, 5],
+            [13, 0], [13, 1], [13, 2], [13, 3], [13, 4], [13, 5], [13,6]
+        ]
+    elif deltaArrowType == "down":
+        deltaArrow = [
+            [13, 3],
+            [14, 2], [14, 3], [14, 4],
+            [15, 1], [15, 2], [15, 3], [15, 4], [15, 5],
+            [16, 0], [16, 1], [16, 2], [16, 3], [16, 4], [16, 5], [16,6]
+        ]
+    else:
+        deltaArrow = [
+            [15, 1], [15, 2], [15, 3], [15, 4], [15, 5],
+            [14, 1], [14, 2], [14, 3], [14, 4], [14, 5],
+            [13, 1], [13, 2], [13, 3], [13, 4], [13, 5]
+        ]
 
-    while True and fileContent == "Unicorn":
-        step += 1
-        counter += 1
+    for x, y in deltaArrow:
+        uh.set_pixel(x, y, dr_r, dr_g, dr_b)
 
-        for x in range(0, width):
-            for y in range(0, height):
-                dx = (math.sin(step / width + 20) * width) + height
-                dy = (math.cos(step / height) * height) + height
-                sc = (math.cos(step / height) * height) + width
-
-                hue = math.sqrt(math.pow(x - dx, 2) + math.pow(y - dy, 2)) / sc
-                r, g, b = [int(c * 255) for c in hsv_to_rgb(hue, 1, 1)]
-
-                uh.set_pixel(x, y, r, g, b)
-
-        uh.show()
-        time.sleep(1.0 / 60)
-
-        if counter == 10:
-            fileContent = check_file_contents()
-            counter = 0
-
-        uh.clear()
+    uh.show()
 
 
 # Set Decimal place
@@ -113,11 +107,11 @@ bloodGlucose = [
 ]
 
 deltaRates = [
-    [-5, -1, "red"],
-    [-0.9, -0.3, "orange"],
-    [-0.2, 0.2, "green"],
-    [0.3, 0.9, "yellow"],
-    [1.0, 5, "purple"]
+    [-5, -1, "red", "down"],
+    [-0.9, -0.3, "orange", "down"],
+    [-0.2, 0.2, "green", "steady"],
+    [0.3, 0.9, "yellow", "up"],
+    [1.0, 5, "purple", "up"]
 ]
 
 # Get Dexcom username and password (this should be stored in secret management)
@@ -135,13 +129,12 @@ while True:
     dexcomResponse = json.loads(getDexcomValues(dexcom))
     # Lets work out what values are returned and then we can choose its range
     bloodGlucoseColour = bloodGlucose[[int(dexcomResponse["mmol"] * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in bloodGlucose].index(True)][2]
-    deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in deltaRates].index(True)][2]
+    deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][2]
 
 
     print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
     print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
 
-    set_unicorn(name_to_rgb(bloodGlucoseColour)[0],name_to_rgb(bloodGlucoseColour)[1],name_to_rgb(bloodGlucoseColour)[2],0.5)
+    set_unicorn(bloodGlucoseColour, deltaRateColour, deltaRateColour, 0.5)
 
     time.sleep(60)
-    
