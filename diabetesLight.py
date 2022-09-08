@@ -112,11 +112,15 @@ while True:
     trendDirection = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][3]
 
     if firstRun == True:
-        sleepSecs = 60 - datetime.strptime(dexcomResponse["time"], '%Y-%m-%d %H:%M:%S').second + 10
+        syncSecs = datetime.strptime(dexcomResponse["time"], '%Y-%m-%d %H:%M:%S').second
+        nowSecs = datetime.now().second
+        if nowSecs <= syncSecs:
+            sleepSecs = syncSecs - nowSecs + 5
+        else:
+            sleepSecs = 60 - (nowSecs - syncSecs) + 5
         print("Sleep for " + str(sleepSecs) + " to sync")
     else:
         sleepSecs = 60
-
 
     print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
     print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
@@ -124,3 +128,5 @@ while True:
     set_unicorn(bloodGlucoseColour, deltaRateColour, trendDirection, 0.3)
 
     time.sleep(sleepSecs)
+
+    firstRun = False
