@@ -102,8 +102,8 @@ uh = UnicornHATMini()
 # Connect to Dexcom
 dexcom = dexcomConnect(Dexcom_username, Dexcom_password)
 
+firstRun = True
 while True:
-
     # Get the CGM Values from Dexcom
     dexcomResponse = json.loads(getDexcomValues(dexcom))
     # Lets work out what values are returned and then we can choose its range
@@ -111,9 +111,16 @@ while True:
     deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][2]
     trendDirection = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][3]
 
+    if firstRun is True:
+        sleepSecs = 60 - dexcomResponse["time"].second + 10
+        print("Sleep for " + sleepSecs + " to sync")
+    else:
+        sleepSecs = 60
+
+
     print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
     print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
 
     set_unicorn(bloodGlucoseColour, deltaRateColour, trendDirection, 0.3)
 
-    time.sleep(60)
+    time.sleep(sleepSecs)
