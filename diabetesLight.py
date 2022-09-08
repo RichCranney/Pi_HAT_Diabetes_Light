@@ -110,9 +110,9 @@ while True:
     bloodGlucoseColour = bloodGlucose[[int(dexcomResponse["mmol"] * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in bloodGlucose].index(True)][2]
     deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][2]
     trendDirection = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][3]
-
+    print(dexcomResponse["time"])
     if firstRun is True:
-        sleepSecs = 60 - datetime(dexcomResponse["time"]).second + 10
+        sleepSecs = 60 - datetime.strptime(dexcomResponse["time"], '').second + 10
         print("Sleep for " + sleepSecs + " to sync")
     else:
         sleepSecs = 60
