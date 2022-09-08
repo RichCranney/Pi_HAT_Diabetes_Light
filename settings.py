@@ -1,6 +1,7 @@
+import keyring
 # Get Dexcom username and password (this should be stored in secret management)
 Dexcom_username = 'richardcranney'
-Dexcom_password = 'Wycombe!23'
+Dexcom_password = keyring.get_password('Dexcom',Dexcom_username)
 
 bloodGlucose = [
     [0.0, 3.9, "red"],
