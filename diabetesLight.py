@@ -129,8 +129,8 @@ while True:
     dexcomResponse = json.loads(getDexcomValues(dexcom))
     # Lets work out what values are returned and then we can choose its range
     bloodGlucoseColour = bloodGlucose[[int(dexcomResponse["mmol"] * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in bloodGlucose].index(True)][2]
-    deltaRateColour, trendDirection = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][2,3]
-
+    deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][2]
+    trendDirection = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][3]
 
     print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
     print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
