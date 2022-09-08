@@ -3,7 +3,7 @@ import sys
 import time
 import math
 from colorsys import hsv_to_rgb
-#from unicornhatmini import UnicornHATMini
+from unicornhatmini import UnicornHATMini
 from pydexcom import Dexcom
 from decimal import Decimal, getcontext
 import json
