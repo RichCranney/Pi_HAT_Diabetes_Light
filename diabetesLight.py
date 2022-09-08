@@ -7,7 +7,8 @@ from colorsys import hsv_to_rgb
 from pydexcom import Dexcom
 from decimal import Decimal, getcontext
 import json
-from matplotlib import colors
+import webcolors
+from webcolors import name_to_rgb
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -124,8 +125,7 @@ Dexcom_username = 'richardcranney'
 Dexcom_password = 'Wycombe!23'
 
 # Connect to the Unicorn HAT
-#uh = UnicornHATMini()
-uh = "ignore"
+uh = UnicornHATMini()
 # Connect to Dexcom
 dexcom = dexcomConnect(Dexcom_username, Dexcom_password)
 # Get the CGM Values from Dexcom
@@ -138,4 +138,4 @@ deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in rang
 print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
 print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
 
-set_unicorn(colors.to_rgba(bloodGlucoseColour))
+set_unicorn(name_to_rgb(bloodGlucoseColour)[0],name_to_rgb(bloodGlucoseColour)[1],name_to_rgb(bloodGlucoseColour)[2],0.5)
