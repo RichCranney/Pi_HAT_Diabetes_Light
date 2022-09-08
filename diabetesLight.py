@@ -128,14 +128,20 @@ Dexcom_password = 'Wycombe!23'
 uh = UnicornHATMini()
 # Connect to Dexcom
 dexcom = dexcomConnect(Dexcom_username, Dexcom_password)
-# Get the CGM Values from Dexcom
-dexcomResponse = json.loads(getDexcomValues(dexcom))
-# Lets work out what values are returned and then we can choose its range
-bloodGlucoseColour = bloodGlucose[[int(dexcomResponse["mmol"] * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in bloodGlucose].index(True)][2]
-deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in deltaRates].index(True)][2]
+
+while True:
+
+    # Get the CGM Values from Dexcom
+    dexcomResponse = json.loads(getDexcomValues(dexcom))
+    # Lets work out what values are returned and then we can choose its range
+    bloodGlucoseColour = bloodGlucose[[int(dexcomResponse["mmol"] * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in bloodGlucose].index(True)][2]
+    deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour in deltaRates].index(True)][2]
 
 
-print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
-print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
+    print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
+    print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
 
-set_unicorn(name_to_rgb(bloodGlucoseColour)[0],name_to_rgb(bloodGlucoseColour)[1],name_to_rgb(bloodGlucoseColour)[2],0.5)
+    set_unicorn(name_to_rgb(bloodGlucoseColour)[0],name_to_rgb(bloodGlucoseColour)[1],name_to_rgb(bloodGlucoseColour)[2],0.5)
+
+    time.sleep(60)
+    
