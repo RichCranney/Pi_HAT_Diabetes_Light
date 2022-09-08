@@ -111,7 +111,7 @@ while True:
     deltaRateColour = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][2]
     trendDirection = deltaRates[[int(Decimal(dexcomResponse["delta"]) * 10) in range(int(start * 10), int(end * 10) + 1) for start, end, colour, trendDirection in deltaRates].index(True)][3]
 
-    if firstRun is True:
+    if firstRun == True:
         sleepSecs = 60 - datetime.strptime(dexcomResponse["time"], '%Y-%m-%d %H:%M:%S').second + 10
         print("Sleep for " + str(sleepSecs) + " to sync")
     else:
