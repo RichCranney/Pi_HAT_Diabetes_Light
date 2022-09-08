@@ -102,7 +102,7 @@ bloodGlucose = [
     [0.0, 3.9, "red"],
     [4.0, 4.5, "orange"],
     [4.6, 10.0, "green"],
-    [10.0, 13.9, "lightblue"],
+    [10.0, 13.9, "pink"],
     [14.0, 99.9, "purple"]
 ]
 
@@ -110,8 +110,8 @@ deltaRates = [
     [-5, -1, "red", "down"],
     [-0.9, -0.3, "orange", "down"],
     [-0.2, 0.2, "green", "steady"],
-    [0.3, 0.9, "yellow", "up"],
-    [1.0, 5, "purple", "up"]
+    [0.3, 0.9, "orange", "up"],
+    [1.0, 5, "red", "up"]
 ]
 
 # Get Dexcom username and password (this should be stored in secret management)
