@@ -135,6 +135,6 @@ while True:
     print(str(dexcomResponse["mmol"]) + " - " + bloodGlucoseColour)
     print(str(dexcomResponse["delta"]) + " - " + deltaRateColour)
 
-    set_unicorn(bloodGlucoseColour, deltaRateColour, deltaRateColour, 0.5)
+    set_unicorn(bloodGlucoseColour, deltaRateColour, deltaRateColour, 1)
 
     time.sleep(60)
